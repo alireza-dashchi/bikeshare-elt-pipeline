@@ -1,0 +1,20 @@
+SELECT
+    instant as record_id,
+    dteday as date,
+    season as season_id,
+    yr + 2011 as year,
+    mnth as month,
+    hr as hour,
+    CASE WHEN holiday = 1 THEN TRUE ELSE FALSE END as is_holiday,
+    weekday as day_of_week,
+    CASE WHEN workingday = 1 THEN TRUE ELSE FALSE END as is_workingday,
+    weathersit as weather_id,
+    temp * 41 as temp_celsius,
+    atemp * 50 as feels_like_celsius,
+    hum * 100 as humidity_percent,
+    windspeed * 67 as windspeed_kmh,
+    casual as casual_users,
+    registered as registered_users,
+    cnt as total_rentals,
+    loaded_at
+FROM {{ source('raw', 'bikeshare_raw') }} 

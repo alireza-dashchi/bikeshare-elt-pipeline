@@ -1,0 +1,83 @@
+version: 2
+
+sources:
+  - name: raw
+    database: BIKESHARE_DB
+    schema: RAW
+    tables:
+      - name: bikeshare_raw
+        columns:
+          - name: instant
+            tests:
+              - unique
+              - not_null
+          - name: dteday
+            tests:
+              - not_null
+          - name: cnt
+            tests:
+              - not_null
+
+models:
+  - name: stg_bikeshare
+    columns:
+      - name: record_id
+        tests:
+          - unique
+          - not_null
+        description: Unique identifier for each record
+      
+      - name: date
+        tests:
+          - not_null
+        description: Date of the rental record
+      
+      - name: season_id
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4]
+        description: Season (1:spring, 2:summer, 3:fall, 4:winter)
+      
+      - name: year
+        tests:
+          - not_null
+        description: Year of record
+      
+      - name: month
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        description: Month of record (1-12)
+      
+      - name: hour
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+        description: Hour of record (0-23)
+      
+      - name: is_holiday
+        tests:
+          - not_null
+        description: Whether the day is a holiday
+      
+      - name: day_of_week
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3, 4, 5, 6]
+        description: Day of week (0:Sunday - 6:Saturday)
+      
+      - name: is_workingday
+        tests:
+          - not_null
+        description: Whether the day is a working day
+      
+      - name: weather_id
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4]
+        description: Weather situation ID 
