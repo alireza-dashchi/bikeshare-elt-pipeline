@@ -12,12 +12,7 @@ SELECT
     casual_users,
     registered_users,
     total_rentals,
-    CASE season_id
-        WHEN 1 THEN 'Spring'
-        WHEN 2 THEN 'Summer'
-        WHEN 3 THEN 'Fall'
-        WHEN 4 THEN 'Winter'
-    END as season_name,
+    {{ get_season_name('season_id') }} as season_name,
     CASE day_of_week
         WHEN 0 THEN 'Sunday'
         WHEN 1 THEN 'Monday'

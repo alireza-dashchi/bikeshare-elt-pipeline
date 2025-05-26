@@ -6,29 +6,28 @@ bikeshare_analytics:
   outputs:
     dev:
       type: snowflake
-      # Replace these with your actual Snowflake credentials
-      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"  # e.g., 'abc12345.us-east-1'
-      user: "{{ env_var('SNOWFLAKE_USER') }}"        # Your Snowflake username
-      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}" # Your Snowflake password
-      role: "{{ env_var('SNOWFLAKE_ROLE', 'SYSADMIN') }}" # Default to SYSADMIN
-      database: "{{ env_var('SNOWFLAKE_DATABASE', 'BIKESHARE_DB') }}"
-      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'BIKESHARE_WH') }}"
-      schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'ANALYTICS') }}"
-      threads: 4
-      keepalives_idle: 240
-      search_path: "BIKESHARE_DB.ANALYTICS"
-      
-    prod:
-      type: snowflake
-      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"  # Use environment variable
       user: "{{ env_var('SNOWFLAKE_USER') }}"
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: "{{ env_var('SNOWFLAKE_ROLE', 'SYSADMIN') }}"
       database: "{{ env_var('SNOWFLAKE_DATABASE', 'BIKESHARE_DB') }}"
       warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'BIKESHARE_WH') }}"
-      schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'ANALYTICS') }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'RAW') }}"
+      threads: 4
+      keepalives_idle: 240
+      search_path: "BIKESHARE_DB.RAW"
+      
+    prod:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"  # Use environment variable
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE', 'SYSADMIN') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'BIKESHARE_DB') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'BIKESHARE_WH') }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'RAW') }}"
       threads: 8
       keepalives_idle: 240
-      search_path: "BIKESHARE_DB.ANALYTICS"
+      search_path: "BIKESHARE_DB.RAW"
 
   target: dev 

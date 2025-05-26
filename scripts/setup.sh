@@ -1,22 +1,57 @@
 #!/bin/bash
 
+# Exit on error
+set -e
+
+echo "🚲 Setting up Bike Share ELT Pipeline..."
+
 # Create necessary directories
+echo "📁 Creating directories..."
+mkdir -p data/raw
 mkdir -p logs
-mkdir -p plugins
+mkdir -p dbt_project/logs
 
-# Create Airflow connection for Snowflake
-echo "Creating Airflow connection for Snowflake..."
-docker-compose -f docker/docker-compose.yml run --rm airflow-webserver airflow connections add 'snowflake_default' \
-    --conn-type 'snowflake' \
-    --conn-login "$SNOWFLAKE_USER" \
-    --conn-password "$SNOWFLAKE_PASSWORD" \
-    --conn-schema "$SNOWFLAKE_DATABASE" \
-    --conn-extra "{\"account\": \"$SNOWFLAKE_ACCOUNT\", \"warehouse\": \"$SNOWFLAKE_WAREHOUSE\", \"database\": \"$SNOWFLAKE_DATABASE\", \"role\": \"$SNOWFLAKE_ROLE\"}"
+# Check if Python is installed
+if ! command -v python3 &> /dev/null; then
+    echo "❌ Python 3 is required but not installed. Please install Python 3 and try again."
+    exit 1
+fi
 
-# Start Airflow services
-echo "Starting Airflow services..."
+# Create Python virtual environment
+echo "🐍 Creating Python virtual environment..."
+python3 -m venv venv
+source venv/bin/activate
+
+# Install requirements
+echo "📦 Installing Python packages..."
+pip install -r requirements.txt
+
+# Source Snowflake environment variables
+if [ -f "set_snowflake_env.sh" ]; then
+    echo "❄️ Setting up Snowflake environment..."
+    source set_snowflake_env.sh
+else
+    echo "⚠️ Snowflake environment file not found. Please create set_snowflake_env.sh with your credentials."
+fi
+
+# Download dataset if not exists
+if [ ! -f "data/raw/hour.csv" ]; then
+    echo "📥 Downloading bike share dataset..."
+    curl -o data/raw/Bike-Sharing-Dataset.zip https://archive.ics.uci.edu/ml/machine-learning-databases/00275/Bike-Sharing-Dataset.zip
+    unzip data/raw/Bike-Sharing-Dataset.zip -d data/raw/
+fi
+
+# Initialize dbt
+echo "🔧 Setting up dbt..."
+cd dbt_project
+dbt deps
+dbt debug
+
+# Start Docker containers
+echo "🐳 Starting Docker containers..."
 docker-compose -f docker/docker-compose.yml up -d
 
-echo "Setup complete! Airflow UI will be available at http://localhost:8080"
-echo "Username: airflow"
-echo "Password: airflow" 
+echo "✅ Setup completed! Next steps:"
+echo "1. Visit http://localhost:8080 to access Airflow (user: airflow, pass: airflow)"
+echo "2. Enable and trigger the bikeshare_pipeline DAG"
+echo "3. Monitor the pipeline execution in Airflow UI" 
