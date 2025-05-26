@@ -22,6 +22,7 @@ x-airflow-common:
   volumes:
     - ../dags:/opt/airflow/dags
     - ../dbt_project:/opt/airflow/dbt_project
+    - ../data:/opt/airflow/data
     - ./logs:/opt/airflow/logs
     - ./plugins:/opt/airflow/plugins
   user: "${AIRFLOW_UID:-50000}:0"
