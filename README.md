@@ -1,24 +1,67 @@
-# 🚴 Bikeshare ELT Pipeline
+# 🚲 Bike Share ELT Pipeline
 
-A comprehensive **Extract, Load, Transform (ELT)** data pipeline for analyzing bike sharing data using **Airflow**, **dbt**, and **Snowflake**.
+A comprehensive ELT (Extract, Load, Transform) pipeline for bike share data analysis, featuring modern data engineering practices and tools. This project demonstrates advanced data engineering skills including data pipeline development, quality assurance, monitoring, and analytics.
 
-## 🏗️ **Architecture Overview**
+## 🏗️ Architecture Overview
 
 ```
-Raw Data (CSV) → Airflow → Snowflake → dbt → Analytics Tables → Data Quality Tests
+Raw Data (CSV) → Airflow → Snowflake → dbt → Analytics Tables → Data Quality Tests → Monitoring & Alerts
 ```
 
-### **Technology Stack:**
+## 🌟 Features
+
+### Core Pipeline
+- **Data Extraction**: Automated data collection from bike share APIs
+- **Data Loading**: Efficient data loading into Snowflake
+- **Data Transformation**: dbt-powered transformations
+- **Orchestration**: Apache Airflow for workflow management
+- **Data Quality**: Automated data quality checks and monitoring
+- **Visualization**: Interactive dashboards and analytics
+
+### Advanced Tools
+
+#### 📊 Data Analysis Tools
+- Statistical analysis with hypothesis testing
+- Correlation analysis
+- Time series pattern analysis
+- Business insights generation
+- Automated reporting
+
+#### 📈 Data Visualization
+- Interactive dashboards using Dash
+- Time series visualizations
+- Weather impact analysis
+- User segmentation analysis
+- Real-time data updates
+
+#### 🔍 Data Quality Monitoring
+- Automated data quality checks
+- Completeness validation
+- Accuracy verification
+- Consistency checks
+- Alert system for quality issues
+
+#### 🚀 Pipeline Monitoring
+- Real-time pipeline monitoring
+- System resource tracking
+- Airflow DAG monitoring
+- Data freshness tracking
+- Prometheus metrics integration
+
+## 🛠️ Technology Stack
+
 - **🔄 Orchestration:** Apache Airflow 2.8.0
 - **🏔️ Data Warehouse:** Snowflake
 - **🔧 Transformation:** dbt (Data Build Tool)
+- **📊 Monitoring:** Prometheus, Grafana
+- **📈 Visualization:** Plotly, Dash
 - **🐳 Containerization:** Docker & Docker Compose
 - **🐍 Language:** Python 3.11
 - **📊 Data:** UCI Bike Share Dataset (17,379 records, 2011-2012)
+- **🔄 Version Control:** Git
+- **🚀 CI/CD:** GitHub Actions
 
----
-
-## 📁 **Project Structure**
+## 📁 Project Structure
 
 ```
 bikeshare-elt-pipeline/
@@ -30,90 +73,107 @@ bikeshare-elt-pipeline/
 │   │   └── marts/               # Business logic & analytics
 │   ├── macros/                  # Reusable dbt functions
 │   └── tests/                   # Data quality tests (49 tests)
+├── 📂 scripts/                   # Utility scripts
+│   ├── create_statistical_analysis.py
+│   ├── create_visualizations.py
+│   ├── monitor_data_quality.py
+│   ├── monitor_pipeline.py
+│   ├── setup_snowflake.py
+│   └── load_data_to_snowflake.py
 ├── 📂 data/raw/                 # Source data files
 │   └── hour.csv                 # Bike share hourly data
 ├── 📂 docker/                   # Docker configuration
 │   └── docker-compose.yml       # Airflow + PostgreSQL setup
-├── 📂 scripts/                  # Setup & utility scripts
-│   ├── setup_snowflake.py      # Snowflake infrastructure setup
-│   ├── load_data_to_snowflake.py # Data loading script
-│   └── setup_airflow.sh        # Airflow configuration
-└── 📂 sql/                      # SQL scripts & queries
+├── 📂 tests/                    # Test files
+├── 📂 sql/                      # SQL scripts & queries
+├── .env.example                # Environment variables template
+└── README.md                   # Project documentation
 ```
 
----
+## 🚀 Getting Started
 
-## 🚀 **Quick Start**
-
-### **Prerequisites**
+### Prerequisites
 - Docker & Docker Compose
 - Python 3.9+
 - Snowflake account with credentials
 - Git
 
-### **1. Clone Repository**
+### 1. Clone Repository
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/yourusername/bikeshare-elt-pipeline.git
 cd bikeshare-elt-pipeline
 ```
 
-### **2. Set up Snowflake Environment**
+### 2. Set up Environment Variables
 ```bash
-# Copy and edit environment variables
-cp set_snowflake_env.sh.example set_snowflake_env.sh
-# Edit with your Snowflake credentials
-source set_snowflake_env.sh
+cp .env.example .env
+# Edit .env with your credentials
 ```
 
-### **3. Initialize Snowflake Infrastructure**
+### 3. Initialize Snowflake Infrastructure
 ```bash
 python scripts/setup_snowflake.py
 python scripts/load_data_to_snowflake.py
 ```
 
-### **4. Start Airflow**
+### 4. Start Services
 ```bash
-cd docker
-docker compose up -d
+docker-compose up -d
 ```
 
-### **5. Configure Airflow**
+### 5. Initialize Database
 ```bash
-# Wait for containers to start, then:
-source ../set_snowflake_env.sh
-./scripts/setup_airflow.sh
+./scripts/init_database.sh
 ```
 
-### **6. Access Airflow UI**
-- **URL:** http://localhost:8080
-- **Username:** `airflow`
-- **Password:** `airflow`
-
-### **7. Run the Pipeline**
+### 6. Run Pipeline
 ```bash
-# Trigger the DAG
-docker exec docker-airflow-webserver-1 airflow dags trigger bikeshare_pipeline
+./scripts/run_pipeline.sh
 ```
 
----
+## 📊 Available Tools
 
-## 📊 **Data Pipeline Details**
+### Data Analysis
+```bash
+python scripts/create_statistical_analysis.py
+```
+Generates comprehensive statistical analysis and business insights.
 
-### **Data Flow**
+### Data Visualization
+```bash
+python scripts/create_visualizations.py
+```
+Creates interactive visualizations and dashboard.
 
-#### **📥 Extract**
+### Data Quality Monitoring
+```bash
+python scripts/monitor_data_quality.py
+```
+Runs automated data quality checks and generates reports.
+
+### Pipeline Monitoring
+```bash
+python scripts/monitor_pipeline.py
+```
+Starts real-time pipeline monitoring and alerting.
+
+## 📈 Data Pipeline Details
+
+### Data Flow
+
+#### 📥 Extract
 - **Source:** UCI Bike Share Dataset
 - **Format:** CSV (17,379 hourly records)
 - **Timespan:** January 2011 - December 2012
 - **Features:** Weather, seasonality, user types, rental counts
 
-#### **📦 Load**
+#### 📦 Load
 - **Target:** Snowflake Data Warehouse
 - **Schema:** `BIKESHARE_DB.RAW.BIKESHARE_RAW`
 - **Method:** Batch loading via Snowflake COPY command
 - **Validation:** Data quality checks before loading
 
-#### **🔄 Transform (dbt Models)**
+#### 🔄 Transform (dbt Models)
 
 1. **Staging Layer** (`stg_bikeshare`)
    - Data type conversions
@@ -126,7 +186,7 @@ docker exec docker-airflow-webserver-1 airflow dags trigger bikeshare_pipeline
 3. **Fact Tables**
    - `fct_hourly_rentals` - Enriched rental data with business logic
 
-### **🧪 Data Quality Framework**
+### 🧪 Data Quality Framework
 - **49 comprehensive tests** covering:
   - Source data validation
   - Referential integrity
@@ -134,18 +194,16 @@ docker exec docker-airflow-webserver-1 airflow dags trigger bikeshare_pipeline
   - Statistical outlier detection
   - Data freshness checks
 
----
+## 🎯 Airflow DAG: `bikeshare_pipeline`
 
-## 🎯 **Airflow DAG: `bikeshare_pipeline`**
-
-### **Task Flow**
+### Task Flow
 ```
 validate_raw_data → prepare_data → create_snowflake_stage → 
 load_to_snowflake → verify_snowflake_load → dbt_run → 
 dbt_test → notify_success
 ```
 
-### **Task Details**
+### Task Details
 
 | Task | Description | Duration |
 |------|-------------|----------|
@@ -158,17 +216,15 @@ dbt_test → notify_success
 | `dbt_test` | Runs all data quality tests | ~30s |
 | `notify_success` | Sends completion notification | ~5s |
 
-### **Scheduling**
+### Scheduling
 - **Frequency:** Daily at 1:00 AM UTC
 - **Retries:** 2 attempts with 5-minute delays
 - **SLA:** 4 hours
 - **Monitoring:** Email notifications on success/failure
 
----
+## 🏔️ Snowflake Configuration
 
-## 🏔️ **Snowflake Configuration**
-
-### **Database Objects**
+### Database Objects
 ```sql
 DATABASE: BIKESHARE_DB
 ├── SCHEMA: RAW                    # Source data
@@ -182,16 +238,14 @@ DATABASE: BIKESHARE_DB
 └── WAREHOUSE: BIKESHARE_WH       # Compute resources
 ```
 
-### **Security & Access**
+### Security & Access
 - **Roles:** ACCOUNTADMIN (setup), SYSADMIN (runtime)
 - **Authentication:** Username/Password
 - **Network:** Standard Snowflake connectivity
 
----
+## 🔧 dbt Configuration
 
-## 🔧 **dbt Configuration**
-
-### **Models Hierarchy**
+### Models Hierarchy
 ```
 models/
 ├── staging/
@@ -201,13 +255,13 @@ models/
     └── fct_hourly_rentals.sql    # Rental facts
 ```
 
-### **Key Features**
+### Key Features
 - **Incremental Models:** Optimized for large datasets
 - **Macros:** Reusable business logic
 - **Tests:** Comprehensive data quality framework
 - **Documentation:** Auto-generated lineage & docs
 
-### **Business Logic Examples**
+### Business Logic Examples
 ```sql
 -- Time-of-day categorization
 CASE 
@@ -227,17 +281,15 @@ CASE weather_id
 END as weather_desc
 ```
 
----
+## 📈 Analytics & Insights
 
-## 📈 **Analytics & Insights**
-
-### **Key Metrics Available**
+### Key Metrics Available
 - **Rental Patterns:** Hourly, daily, seasonal trends
 - **User Segmentation:** Casual vs. registered users
 - **Weather Impact:** Correlation with rental demand
 - **Operational Efficiency:** Peak usage identification
 
-### **Sample Queries**
+### Sample Queries
 ```sql
 -- Peak rental hours by season
 SELECT 
@@ -259,11 +311,16 @@ GROUP BY w.weather_desc
 ORDER BY avg_rentals DESC;
 ```
 
----
+## 📊 Dashboards
 
-## 🔍 **Monitoring & Observability**
+- **Operational Dashboard**: Real-time pipeline status
+- **Analytics Dashboard**: Business insights and trends
+- **Quality Dashboard**: Data quality metrics
+- **System Dashboard**: Resource utilization
 
-### **Data Quality Monitoring**
+## 🔍 Monitoring & Observability
+
+### Data Quality Monitoring
 - **49 automated tests** run with every pipeline execution
 - **Test Categories:**
   - Schema validation
@@ -271,25 +328,23 @@ ORDER BY avg_rentals DESC;
   - Business rule compliance
   - Statistical anomaly detection
 
-### **Pipeline Monitoring**
+### Pipeline Monitoring
 - **Airflow UI:** Real-time task status & logs
 - **Email Alerts:** Success/failure notifications
 - **SLA Monitoring:** 4-hour completion target
 - **Retry Logic:** Automatic failure recovery
 
-### **Performance Metrics**
+### Performance Metrics
 - **Pipeline Runtime:** ~2 minutes end-to-end
 - **Data Volume:** 17,379 records processed
 - **Test Coverage:** 100% of critical data paths
 - **Uptime Target:** 99.9% availability
 
----
+## 🐛 Troubleshooting
 
-## 🐛 **Troubleshooting**
+### Common Issues
 
-### **Common Issues**
-
-#### **Airflow DAG Not Visible**
+#### Airflow DAG Not Visible
 ```bash
 # Check DAG syntax
 docker exec docker-airflow-webserver-1 airflow dags list | grep bikeshare
@@ -297,7 +352,7 @@ docker exec docker-airflow-webserver-1 airflow dags list | grep bikeshare
 docker exec docker-airflow-webserver-1 airflow dags show bikeshare_pipeline
 ```
 
-#### **Snowflake Connection Failed**
+#### Snowflake Connection Failed
 ```bash
 # Test connection
 source set_snowflake_env.sh
@@ -306,7 +361,7 @@ python scripts/setup_snowflake.py
 docker exec docker-airflow-webserver-1 airflow connections list
 ```
 
-#### **dbt Tests Failing**
+#### dbt Tests Failing
 ```bash
 # Run specific test
 cd dbt_project
@@ -315,7 +370,7 @@ dbt test --select test_name --profiles-dir .
 dbt test --store-failures --profiles-dir .
 ```
 
-#### **Data Loading Issues**
+#### Data Loading Issues
 ```bash
 # Check data file accessibility
 docker exec docker-airflow-webserver-1 ls -la /opt/airflow/data/raw/
@@ -323,18 +378,16 @@ docker exec docker-airflow-webserver-1 ls -la /opt/airflow/data/raw/
 python scripts/setup_snowflake.py
 ```
 
----
+## 🔄 Development Workflow
 
-## 🔄 **Development Workflow**
-
-### **Making Changes**
+### Making Changes
 1. **Modify dbt models** in `dbt_project/models/`
 2. **Test changes** locally: `dbt run --profiles-dir .`
 3. **Validate quality** with: `dbt test --profiles-dir .`
 4. **Commit changes** and push to repository
 5. **Monitor pipeline** execution in Airflow UI
 
-### **Adding New Models**
+### Adding New Models
 ```bash
 # Create new model
 echo "SELECT * FROM {{ ref('stg_bikeshare') }}" > dbt_project/models/marts/new_model.sql
@@ -347,29 +400,25 @@ dbt run --select new_model --profiles-dir .
 dbt test --select new_model --profiles-dir .
 ```
 
----
+## 📚 Resources & References
 
-## 📚 **Resources & References**
-
-### **Documentation**
+### Documentation
 - [Apache Airflow Documentation](https://airflow.apache.org/docs/)
 - [dbt Documentation](https://docs.getdbt.com/)
 - [Snowflake Documentation](https://docs.snowflake.com/)
 
-### **Dataset Information**
+### Dataset Information
 - **Source:** [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset)
 - **Citation:** Fanaee-T, Hadi, and Gama, Joao. "Event labeling combining ensemble detectors and background knowledge." Progress in Artificial Intelligence (2013): pp. 1-15, Springer Berlin Heidelberg.
 
-### **Architecture Patterns**
+### Architecture Patterns
 - **ELT vs ETL:** Modern data warehouse approach
 - **Dimensional Modeling:** Star schema design
 - **Data Quality:** Test-driven development
 
----
+## 🤝 Contributing
 
-## 🤝 **Contributing**
-
-### **Development Setup**
+### Development Setup
 ```bash
 # Install dependencies
 pip install -r requirements.txt
@@ -381,44 +430,51 @@ pre-commit install
 pytest tests/
 ```
 
-### **Code Standards**
+### Code Standards
 - **Python:** PEP 8 compliance
 - **SQL:** dbt style guide
 - **Documentation:** Comprehensive inline comments
 - **Testing:** Minimum 80% coverage
 
----
-
-## 📄 **License**
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
+## 🎯 Project Status
 
-## 🎯 **Project Status**
-
-### **✅ Completed Features**
+### ✅ Completed Features
 - ✅ Complete ELT pipeline implementation
 - ✅ Automated data quality testing (49 tests)
 - ✅ Comprehensive monitoring & alerting
 - ✅ Docker containerization
 - ✅ Production-ready configuration
+- ✅ Advanced analytics & visualization
+- ✅ Real-time monitoring & alerts
+- ✅ Statistical analysis tools
 
-### **🔄 Future Enhancements**
+### 🔄 Future Enhancements
 - 🔄 Real-time streaming integration
-- 🔄 Advanced analytics & ML models
-- 🔄 Data visualization dashboard
-- 🔄 CI/CD pipeline integration
+- 🔄 Advanced ML models
 - 🔄 Multi-environment deployment
+- 🔄 Enhanced security features
+- 🔄 Performance optimization
 
----
-
-## 👨‍💻 **Author**
+## 👨‍💻 Author
 
 **Alireza Dashchi**
 - 📧 Email: alireza.dashchi@example.com
 - 💼 LinkedIn: [Your LinkedIn Profile]
 - 🐙 GitHub: [Your GitHub Profile]
+
+## 🙏 Acknowledgments
+
+- Bike Share Data Providers
+- Open Source Community
+- Data Engineering Community
+
+## 📞 Support
+
+For support, please open an issue in the GitHub repository or contact the maintainers.
 
 ---
 
