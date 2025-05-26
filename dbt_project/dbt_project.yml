@@ -1,0 +1,55 @@
+name: 'bikeshare_analytics'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'bikeshare_analytics'
+
+# These configurations specify where dbt should look for different types of files.
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+models:
+  bikeshare_analytics:
+    # Config indicated by + and applies to all files under models/
+    +materialized: table
+    
+    # Configuration for staging models
+    staging:
+      +materialized: view
+      +docs:
+        node_color: "lightblue"
+    
+    # Configuration for mart models (final analytics tables)
+    marts:
+      +materialized: table
+      +docs:
+        node_color: "orange"
+
+# Seeds configuration (for reference data)
+seeds:
+  bikeshare_analytics:
+    +quote_columns: false
+
+# Test configuration
+tests:
+  +store_failures: true
+
+# Variables (can be used in models)
+vars:
+  # The start date for our data processing
+  start_date: '2011-01-01'
+  # Timezone for data processing
+  timezone: 'UTC' 
