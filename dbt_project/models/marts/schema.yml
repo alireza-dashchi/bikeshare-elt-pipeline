@@ -1,0 +1,115 @@
+version: 2
+
+models:
+  - name: dim_weather
+    description: "Weather dimension table with weather conditions and metrics"
+    columns:
+      - name: weather_id
+        description: "Unique weather condition identifier"
+        tests:
+          - unique
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4]
+      
+      - name: weather_desc
+        description: "Human-readable weather condition description"
+        tests:
+          - not_null
+      
+      - name: avg_temp_celsius
+        description: "Average temperature in Celsius"
+        tests:
+          - not_null
+      
+      - name: avg_feels_like_celsius
+        description: "Average feels like temperature in Celsius"
+        tests:
+          - not_null
+      
+      - name: avg_humidity_percent
+        description: "Average humidity percentage (0-100)"
+        tests:
+          - not_null
+      
+      - name: avg_windspeed_kmh
+        description: "Average wind speed in km/h"
+        tests:
+          - not_null
+
+  - name: fct_hourly_rentals
+    description: "Fact table containing hourly bike rental records with enriched dimensions"
+    columns:
+      - name: record_id
+        description: "Unique identifier for each rental record"
+        tests:
+          - unique
+          - not_null
+      
+      - name: date
+        description: "Date of the rental"
+        tests:
+          - not_null
+      
+      - name: hour
+        description: "Hour of the rental (0-23)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+      
+      - name: total_rentals
+        description: "Total number of bike rentals in that hour"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      
+      - name: casual_users
+        description: "Number of casual user rentals"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      
+      - name: registered_users
+        description: "Number of registered user rentals"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      
+      - name: season_id
+        description: "Season identifier"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4]
+      
+      - name: season_name
+        description: "Human-readable season name"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Spring', 'Summer', 'Fall', 'Winter']
+      
+      - name: weather_id
+        description: "Weather condition identifier"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4]
+      
+      - name: time_of_day
+        description: "Categorized time period of the day"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Early Morning', 'Morning Rush', 'Mid-Day', 'Evening Rush', 'Night']
+      
+      - name: day_name
+        description: "Human-readable day of the week"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] 
