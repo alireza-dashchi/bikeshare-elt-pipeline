@@ -1,0 +1,12 @@
+
+        -- Tableau Connection String
+        Server: TTB21988.us-west-2.snowflakecomputing.com
+        Database: BIKESHARE_DB
+        Schema: RAW
+        Warehouse: BIKESHARE_WH
+        
+        -- Sample Calculated Fields for Tableau:
+        -- Rental Category: IF [Total Rentals] > 200 THEN "High" ELSEIF [Total Rentals] > 100 THEN "Medium" ELSE "Low" END
+        -- Weekend Flag: IF DATEPART('weekday',[Date]) IN (1,7) THEN "Weekend" ELSE "Weekday" END
+        -- Peak Hour Flag: IF [Hour] IN (8,17,18) THEN "Peak" ELSE "Off-Peak" END
+        

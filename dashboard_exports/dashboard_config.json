@@ -1,0 +1,101 @@
+{
+  "data_sources": {
+    "hourly_trends": {
+      "file": "hourly_trends.csv",
+      "description": "Time series data for rental trends",
+      "key_fields": [
+        "date",
+        "hour",
+        "total_rentals"
+      ],
+      "visualizations": [
+        "Line chart",
+        "Heatmap",
+        "Calendar view"
+      ]
+    },
+    "weather_impact": {
+      "file": "weather_impact.csv",
+      "description": "Weather conditions vs rental performance",
+      "key_fields": [
+        "weather_desc",
+        "avg_rentals",
+        "avg_temp_celsius"
+      ],
+      "visualizations": [
+        "Bar chart",
+        "Scatter plot",
+        "KPI cards"
+      ]
+    },
+    "seasonal_patterns": {
+      "file": "seasonal_patterns.csv",
+      "description": "Monthly and seasonal rental patterns",
+      "key_fields": [
+        "season_name",
+        "month",
+        "avg_rentals"
+      ],
+      "visualizations": [
+        "Seasonal decomposition",
+        "Year-over-year comparison"
+      ]
+    },
+    "user_behavior": {
+      "file": "user_behavior.csv",
+      "description": "Casual vs registered user patterns",
+      "key_fields": [
+        "time_of_day",
+        "casual_percentage",
+        "total_rentals"
+      ],
+      "visualizations": [
+        "Stacked bar",
+        "Pie chart",
+        "User segmentation"
+      ]
+    }
+  },
+  "suggested_dashboards": [
+    {
+      "name": "Executive Summary",
+      "kpis": [
+        "Total Rentals",
+        "Avg Daily Rentals",
+        "Peak Hour",
+        "Weather Impact"
+      ],
+      "charts": [
+        "Monthly trends",
+        "Weather comparison",
+        "User mix"
+      ]
+    },
+    {
+      "name": "Operational Dashboard",
+      "kpis": [
+        "Current Hour Demand",
+        "Weather Alert",
+        "Capacity Utilization"
+      ],
+      "charts": [
+        "Hourly heatmap",
+        "Real-time weather",
+        "Fleet distribution"
+      ]
+    },
+    {
+      "name": "Business Intelligence",
+      "kpis": [
+        "Revenue Impact",
+        "Seasonal Growth",
+        "User Acquisition"
+      ],
+      "charts": [
+        "Cohort analysis",
+        "Forecasting",
+        "Segment performance"
+      ]
+    }
+  ]
+}
