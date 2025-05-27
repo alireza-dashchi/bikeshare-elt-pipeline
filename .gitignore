@@ -38,6 +38,13 @@ docker/plugins/
 .env.local
 .env.*.local
 
+# Credentials and sensitive files
+set_snowflake_env.sh
+*_credentials.sh
+*_secrets.sh
+*.key
+*.pem
+
 # IDE
 .vscode/
 .idea/
